@@ -10,6 +10,7 @@ const esTransportOpts = {
   
 exports.elasticLogger= winston.createLogger({
     level:'info',
+    format: winston.format.json(), 
     transports:[
         new ElasticsearchTransport(esTransportOpts),
         new winston.transports.Console()
@@ -39,6 +40,7 @@ const auditTransportOpts = {
   
 exports.AuditLogger=winston.createLogger({
     level:'info',
+    format: winston.format.json(), 
     transports:[
         new ElasticsearchTransport(auditTransportOpts),
         new winston.transports.Console()

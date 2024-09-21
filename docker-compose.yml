@@ -1,11 +1,11 @@
 version: '3'
 services:
-  nodeapp:
-    build: ./
-    ports:
-      - "8080:8080"
-    networks:
-      - redis-network
+  # nodeapp:
+  #   build: ./
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - redis-network
 
   redis:
     image: redis:latest
@@ -41,8 +41,8 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    # volumes:
+    #   - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:

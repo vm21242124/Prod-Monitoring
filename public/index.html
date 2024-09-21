@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring and Logging Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            margin: 0 auto;
+            max-width: 600px;
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(255,255,255,0.1);
+        }
+        h1 {
+            color: #f4f4f4;
+        }
+        a {
+            display: block;
+            margin: 15px 0;
+            color: #1e90ff;
+            font-size: 18px;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        p {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Monitoring and Logging Dashboard</h1>
+        <p>Click the links below to access the services:</p>
+        <a href="http://localhost:8080" target="_blank">Node.js Application</a>
+        <a href="http://elastic.localhost:9200" target="_blank">Elasticsearch</a>
+        <a href="http://kibana.localhost:5601" target="_blank">Kibana</a>
+        <a href="http://prometheus.localhost:9090" target="_blank">Prometheus</a>
+        <a href="http://grafana.localhost:3001" target="_blank">Grafana</a>
+        <p>All services are hosted locally. Make sure Docker is running.</p>
+    </div>
+</body>
+</html>
