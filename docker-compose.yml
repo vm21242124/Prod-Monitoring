@@ -1,0 +1,69 @@
+version: '3'
+services:
+  nodeapp:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - redis-network
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    # volumes:
+    #   - redis-data:/data
+    networks:
+      - redis-network
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    networks:
+      - redis-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - redis-network
+      
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    environment:
+      - PROMETHEUS_GLOBAL_SCRAPE_INTERVAL=15s
+      - PROMETHEUS_GLOBAL_EVALUATION_INTERVAL=15s
+      - PROMETHEUS_SCRAPE_TARGETS=http://localhost:8080
+      - PROMETHEUS_WEB_LISTEN_ADDRESS=:9090
+    ports:
+      - "9090:9090"
+    networks:
+      - redis-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    networks:
+      - redis-network
+
+
+volumes:
+  redis-data:
+
+networks:
+  redis-network:
+    driver: bridge
