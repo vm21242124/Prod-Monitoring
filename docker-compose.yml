@@ -1,18 +1,17 @@
 version: '3'
 services:
   nodeapp:
-    build: .
+    build: ./
     ports:
       - "8080:8080"
     networks:
       - redis-network
+
   redis:
     image: redis:latest
     container_name: redis-container
     ports:
       - "6379:6379"
-    # volumes:
-    #   - redis-data:/data
     networks:
       - redis-network
     restart: always
@@ -38,15 +37,12 @@ services:
       - elasticsearch
     networks:
       - redis-network
-      
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    environment:
-      - PROMETHEUS_GLOBAL_SCRAPE_INTERVAL=15s
-      - PROMETHEUS_GLOBAL_EVALUATION_INTERVAL=15s
-      - PROMETHEUS_SCRAPE_TARGETS=http://localhost:8080
-      - PROMETHEUS_WEB_LISTEN_ADDRESS=:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:
@@ -59,7 +55,6 @@ services:
       - "3001:3000"
     networks:
       - redis-network
-
 
 volumes:
   redis-data:
