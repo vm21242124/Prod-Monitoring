@@ -1,7 +1,7 @@
 version: '3'
 services:
   nodeapp:
-    build: ./  # Build the Node.js app from the Dockerfile in the current directory
+    build: .  
     ports:
       - "8080:8080"
     networks:
