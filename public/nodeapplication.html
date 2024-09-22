@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>API Documentation - Dark Theme</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #bb86fc;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+    
+      border-radius: 10px;
+   
+    }
+
+    .code-box {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #2b2b2b;
+      color: #e0e0e0;
+
+      border-radius: 5px;
+      white-space: pre-wrap;
+      text-align: left;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #3700b3;
+      color: white;
+      border: 1px solid #bb86fc;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      width: 100%;
+      max-width: 400px;
+      transition: background-color 0.3s;
+    }
+    pre{
+       text-align: start;
+    
+    }
+
+    button:hover {
+      background-color: #6200ee;
+    }
+
+    .response {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #1e1e1e;
+     
+      border-radius: 5px;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .title {
+      font-size: 1.2rem;
+      color: #bb86fc;
+      margin-bottom: 10px;
+      text-align: start;
+    }
+    .desc{
+        text-align: start;
+    }
+    hr {
+      border: none;
+      height: 1px;
+      background-color: #bb86fc;
+      margin: 20px 0;
+    }
+ 
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Redis Demo</h1>
+
+    <div id="apiRequests"></div> 
+  </div>
+
+  <script>
+   
+    const apiRequests = [
+      { 
+        name: 'Get Todo Items from redis cache', 
+        endpoint: '/todo/all', 
+        description: 'Fetches todo from redis cache' 
+      },
+      { 
+        name: 'Get Todo Items from third party service', 
+        endpoint: '/todo/all?refreshcache=true', 
+        description: 'Get Todo Items from third party service' 
+      }
+    ];
+    async function requestToBackend (endpoint,responseDiv) {
+        responseDiv.textContent='';
+        try {
+          const response = await fetch(endpoint);
+          const data = await response.json();
+          const previewJson=document.createElement('pre');
+          previewJson.textContent=`${JSON.stringify(data,null,2)}`
+        
+        responseDiv.appendChild(previewJson);
+        } catch (error) {
+          responseDiv.textContent = `Error: ${error.message}`;
+        }
+      };
+
+
+    function createApiSection(api) {
+      const apiContainer = document.createElement('div');
+      apiContainer.classList.add('section');
+
+      // Title
+      const title = document.createElement('h3');
+      title.classList.add('title');
+      title.textContent = api.name;
+      const description = document.createElement('p');
+      description.classList.add('desc')
+      description.textContent = api.description;
+
+      
+     
+
+      const codeBlock = document.createElement('div');
+      codeBlock.classList.add('code-box');
+      codeBlock.textContent = `
+        fetch('${api.endpoint}')
+          .then(response => response.json())
+          .then(data => console.log(data))
+          .catch(error => console.error('Error:', error));
+      `;
+
+      const responseDiv = document.createElement('div');
+      responseDiv.classList.add('response');
+      responseDiv.textContent = `Response will appear here for ${api.name}`;
+
+      const button = document.createElement('button');
+      button.textContent = `Send Request`;
+
+      button.addEventListener('click', ()=>{
+        requestToBackend(api.endpoint,responseDiv)
+      })
+      apiContainer.appendChild(title);
+      apiContainer.appendChild(description);
+      apiContainer.appendChild(codeBlock);
+      apiContainer.appendChild(button);
+      apiContainer.appendChild(responseDiv);
+  
+
+      return apiContainer;
+    }
+
+    const apiRequestsContainer = document.getElementById('apiRequests');
+    apiRequests.forEach(api => {
+      const apiSection = createApiSection(api);
+      apiRequestsContainer.appendChild(apiSection);
+    });
+  </script>
+</body>
+</html>

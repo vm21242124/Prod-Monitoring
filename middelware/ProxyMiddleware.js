@@ -2,7 +2,7 @@ const httpProxy = require("http-proxy");
 const { elasticLogger } = require("../config/Logger");
 const proxy = httpProxy.createProxy();
 
-exports.ProxyMiddleware=(req,res)=>{
+exports.ProxyMiddleware=(req,res,next)=>{
     const hostname = req.hostname;
     const subdomain = hostname.split(".")[0];
   
@@ -45,7 +45,7 @@ exports.ProxyMiddleware=(req,res)=>{
         break;
       default:
         elasticLogger.info("No matching subdomain, sending 404");
-        res.status(404).send("Subdomain not recognized");
+        next();
     }
 }
 proxy.on("error", (err, req, res) => {

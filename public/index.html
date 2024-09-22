@@ -11,6 +11,11 @@
             color: #f4f4f4;
             text-align: center;
             padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            height: 90vh;
         }
         .container {
             margin: 0 auto;
@@ -36,17 +41,25 @@
         p {
             color: #ccc;
         }
+        .links{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to the Monitoring and Logging Dashboard</h1>
+        <h1>Prod level monitoring</h1>
         <p>Click the links below to access the services:</p>
-        <a href="http://localhost:8080" target="_blank">Node.js Application</a>
-        <a href="http://elastic.localhost:9200" target="_blank">Elasticsearch</a>
-        <a href="http://kibana.localhost:5601" target="_blank">Kibana</a>
-        <a href="http://prometheus.localhost:9090" target="_blank">Prometheus</a>
-        <a href="http://grafana.localhost:3001" target="_blank">Grafana</a>
+        <div class="links">
+            <a href="nodeapplication.html">Redis demo</a>
+            <a href="http://elastic.localhost:9200" target="_blank">Elasticsearch</a>
+            <a href="http://kibana.localhost:5601" target="_blank">Kibana</a>
+            <a href="http://prometheus.localhost:9090" target="_blank">Prometheus</a>
+            <a href="http://grafana.localhost:3001" target="_blank">Grafana</a>
+        </div>
         <p>All services are hosted locally. Make sure Docker is running.</p>
     </div>
 </body>

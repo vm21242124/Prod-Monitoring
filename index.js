@@ -7,6 +7,7 @@ const { elasticLogger } = require("./config/Logger.js");
 const { MetriceMiddleware } = require("./middelware/MetriceMiddleware.js");
 const { register } = require("./config/PromClient.js");
 const { ProxyMiddleware } = require("./middelware/ProxyMiddleware.js");
+const { redisClient } = require("./config/Redis.js");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -17,6 +18,13 @@ app.use(ErrorHandler);
 app.use(MetriceMiddleware);
 app.use(ProxyMiddleware);
 
+redisClient.on('error', err => console.log('Redis Client Error', err));
+
+redisClient.connect().then(()=>{
+  console.log('connected');
+  
+});
+
 app.listen(port, () => {
   elasticLogger.info(`App listening on port ${port}`);
 });
@@ -24,4 +32,4 @@ app.get("/metrics", async (req, res) => {
   res.set("Content-Type", register.contentType);
   res.end(await register.metrics());
 });
-app.use("/route", route);
+app.use("/todo", route);
